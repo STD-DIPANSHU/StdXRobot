@@ -39,7 +39,7 @@ async def post(url: str, *args, **kwargs):
         return data
 
 
-async def SACHINBin(text):
+async def STDBin(text):
     resp = await post(f"{BASE}api/v2/paste", data=text)
     if not resp["success"]:
         return
