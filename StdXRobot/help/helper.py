@@ -33,7 +33,7 @@ class Helper(object):
 ❍ /ask ➠ ǫυєʀɪєs ᴛʜє ᴧɪ ϻσᴅєʟ ᴛσ ɢєᴛ ᴧ ʀєsᴘσηsє ᴛσ ʏσυʀ ǫυєsᴛɪση
 
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/deepanshuxd) **
 '''
 
 
@@ -47,7 +47,7 @@ class Helper(object):
 ```
 ❖ єxᴧϻᴘʟє : /google ᴘʏʀσɢʀᴧϻ : ʀєᴛυʀη ᴛσᴘ 5 ʀєυsʟᴛs ```
 
-**❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+**❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
     HELP_03 = '''```
@@ -58,7 +58,7 @@ class Helper(object):
 
 ❍ /tts : [ᴛєxᴛ]
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -68,7 +68,7 @@ class Helper(object):
 ❍ /info : ɢєᴛ ɪηғσʀϻᴧᴛɪση ᴧʙσυᴛ ᴧ υsєʀ.
 ❍ /github <υsєʀηᴧϻє> : ɢєᴛ ɪηғσʀϻᴧᴛɪση ᴧʙσυᴛ ᴧ ɢɪᴛʜυʙ υsєʀ
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -81,7 +81,7 @@ class Helper(object):
 ```
 ❖ єxᴧϻᴘʟє : /font STD Sanatani```
 
-**❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+**❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
     HELP_06 = '''```
@@ -89,7 +89,7 @@ class Helper(object):
 
 **❍ /math ➠ sσʟᴠєs ϻᴧᴛʜєϻᴧᴛɪᴄᴧʟ ᴘʀσʙʟєϻs ᴧηᴅ ǫυᴧᴛɪσηs
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -117,7 +117,7 @@ class Helper(object):
 ❍ /vctag ➠ ᴠσɪᴄє ᴄʜᴧᴛ ɪηᴠɪᴛє ᴛᴧɢ 
 ❍ /vcstop ⇴ sᴛσᴘ ᴛᴧɢ
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -128,7 +128,7 @@ class Helper(object):
 ❍ /image ➠ sєᴧʀᴄʜєs ғσʀ ᴧη ɪϻᴧɢє ʙᴧsєᴅ ση ᴧ ɢɪᴠєη ᴋєʏᴡσʀᴅ.
 ❍ /upscale ➠ ʀєᴘʟʏ ᴛσ ᴧη ɪϻᴧɢє ᴛσ υᴘsᴄᴧʟє ɪᴛ ᴧηᴅ ɪϻᴘʀσᴠє ɪᴛs ǫυᴧʟɪᴛʏ.
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -142,7 +142,7 @@ class Helper(object):
 
 ❍ /hastag : [ᴛєxᴛ]
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -152,7 +152,7 @@ class Helper(object):
 **❍ /packkang ➠ ᴄʀєᴧᴛєs ᴧ ᴘᴧᴄᴋ σғ sᴛɪᴄᴋєʀs ғʀσϻ ᴧ σᴛʜєʀ ᴘᴧᴄᴋ
 ❍ /stickerid ➠ ɢєᴛs ᴛʜє sᴛɪᴄᴋєʀ ɪᴅ σғ ᴧ sᴛɪᴄᴋєʀ
 
-**❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+**❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -177,7 +177,7 @@ class Helper(object):
 ❍ /boobs [ᴄʜєᴄᴋ ʏσυʀ ʙσσʙɪєs sɪᴢє]
 ❍ /dick [ᴄʜєᴄᴋ ʏσυʀ ᴅɪᴄᴋ sɪᴢє]
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -189,7 +189,7 @@ class Helper(object):
 ❍ /q : ᴄʀєᴧᴛє ᴧ ǫυσᴛє ғʀσϻ ᴛʜє ϻєssᴧɢє
 ❍ /q r : ᴄʀєᴧᴛє ᴧ ǫυσᴛє ғʀσϻ ᴛʜє ϻєssᴧɢє ᴡɪᴛʜ ʀєᴘʟʏ
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -201,7 +201,7 @@ class Helper(object):
 ❍ /truth : sєηᴅs ᴧ ʀᴧηᴅσϻ ᴛʀυᴛʜ sᴛʀɪηɢ
 ❍ /dare : sєηᴅs ᴧ ʀᴧηᴅσϻ ᴅᴧʀє sᴛʀɪηɢ
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -230,7 +230,7 @@ class Helper(object):
 ```
 ᴛʜɪs ᴄσϻϻᴧηᴅ ᴡɪʟʟ ᴡσʀᴋ σηʟʏ ɪғ ʏσυ ɢɪᴠє ʙᴧη ʀɪɢʜᴛs ᴛσ ᴛʜє ʙσᴛ ᴡɪᴛʜ ᴧᴅϻɪη```
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
     HELP_15 = '''```
@@ -239,7 +239,7 @@ class Helper(object):
 **❍ /kick <userhandle> : ᴋɪᴄᴋs ᴧ υsєʀ συᴛ σғ ᴛʜє ɢʀσυᴘ, (ᴠɪᴧ ʜᴧηᴅʟє, σʀ ʀєᴘʟʏ)
 ❍ /kickme: ᴋɪᴄᴋs ᴛʜє υsєʀ ᴡʜσ ɪssυєᴅ ᴛʜє ᴄσϻϻᴧηᴅ
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -256,7 +256,7 @@ class Helper(object):
 ```
 ᴛʜɪs ᴄσϻϻᴧηᴅ ᴡɪʟʟ ᴡσʀᴋ σηʟʏ ɪғ ʏσυ ɢɪᴠє ʙᴧη ʀɪɢʜᴛs ᴛσ ᴛʜє ʙσᴛ ᴡɪᴛʜ ᴧᴅϻɪη```
 
-**❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+**❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -271,7 +271,7 @@ class Helper(object):
 ❍ /pinned ➠ ᴅɪsᴘʟᴧʏs ᴛʜє ᴘɪηηєᴅ ϻєssᴧɢє ɪη ᴛʜє ɢʀσυᴘ
 ❍ /unpin ➠ υηᴘɪηs ᴛʜє ᴄυʀʀєηᴛʟʏ ᴘɪηηєᴅ ϻєssᴧɢє
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -281,7 +281,7 @@ class Helper(object):
 **❍ /staff ➠ ᴅɪsᴘʟᴧʏs ᴛʜє ʟɪsᴛ σғ sᴛᴧғғ ϻєϻʙєʀs
 ❍ /bots ➠ ᴅɪsᴘʟᴧʏs ᴛʜє ʟɪsᴛ σғ ʙσᴛs ɪη ᴛʜє ɢʀσυᴘ
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -293,7 +293,7 @@ class Helper(object):
 ❍ /setphoto ➠ sєᴛs ᴛʜє ɢʀσυᴘ ᴘʜσᴛσ
 ❍ /removephoto ➠ ʀєϻσᴠєs ᴛʜє ɢʀσυᴘ ᴘʜσᴛσ
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -304,7 +304,7 @@ class Helper(object):
 **❍ /zombies ➠ ʀєϻσᴠєs ᴧᴄᴄ ᴅєʟєᴛєᴅ ϻєϻʙєʀs ғʀσϻ ᴛʜє ɢʀσυᴘ
 
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -321,7 +321,7 @@ class Helper(object):
 ❍ /basket [ʙᴧsᴋєᴛʙᴧʟʟ ɢᴧϻє]
 ❍ /football [ғσσᴛʙᴧʟʟ ɢᴧϻє]
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -332,7 +332,7 @@ class Helper(object):
 ❍ /imposter on
 ❍ /imposter off
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
     HELP_23 = '''```
@@ -340,7 +340,7 @@ class Helper(object):
 
 **❍ /sg ➠ υsєʀ ηᴧϻє ᴧηᴅ υsєʀηᴧϻє ʜɪsᴛσʀʏ
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
     HELP_24 = '''```
@@ -348,7 +348,7 @@ class Helper(object):
 
 **❍ /tr ➠ ᴄᴧη ᴛʀᴧηꜱʟᴧᴛє ϻυʟᴛɪᴘʟє ʟᴧηɢυᴧɢєs
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -364,7 +364,7 @@ class Helper(object):
 
 ❍ /stack ➠ sєᴧʀᴄʜєs ғσʀ ᴘʀσɢʀᴧϻϻɪηɢ-ʀєʟᴧᴛєᴅ ɪηғσʀϻᴧᴛɪση ση sᴛᴧᴄᴋ σᴠєʀғʟσᴡ
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz) **
 '''
 
 
@@ -375,7 +375,7 @@ class Helper(object):
 ❍ /tgm [ʀєᴘʟʏ ᴛσ ᴧηʏ ϻєᴅɪᴧ]
 ❍ /tgt [ʀєᴘʟʏ ᴛσ ᴧηʏ ϻєᴅɪᴧ]
 
-❖ ϻᴧᴅє ʙʏ  ➠ [ᴛᴧɪᴛᴧη](https://t.me/TaitanXBot) **
+❖ ϻᴧᴅє ʙʏ  ➠ [ᴛᴧɪᴛᴧη](https://t.me/stdbotz) **
 '''
     HELP_PROMOTION = '''
 **─────────────────────────
@@ -397,13 +397,13 @@ class Helper(object):
 ʙєsᴛ ᴧηᴅ ᴄʜєᴧᴘ ɪη ᴛєʟєɢʀᴧϻ 400-500+
 ϻєϻʙєʀs ɪη σηє ᴘʀσϻσᴛɪση ɢυʀᴧηᴛєє 
 ─────────────────────────
-❍ ᴄσηᴛᴧᴄᴛ - [ᴄʟɪᴄᴋ ϻє](https://t.me/TaitanGamer)
-❍ ᴄσηᴛᴧᴄᴛ - [ᴄʟɪᴄᴋ ϻє](https://t.me/Tait3nX)
+❍ ᴄσηᴛᴧᴄᴛ - [ᴄʟɪᴄᴋ ϻє](https://t.me/teamstdnetwork)
+❍ ᴄσηᴛᴧᴄᴛ - [ᴄʟɪᴄᴋ ϻє](https://t.me/stdbotz)
 ─────────────────────────**
 '''
     HELP_ALLBOT = '''
 **─────────────────────────
-│ ᴡєʟᴄσϻє ᴛσ ˹[ᴊᴧηʜᴠɪ](https://t.me/TaitanXBot)˼ ʙσᴛ sᴛᴧᴛυs │
+│ ᴡєʟᴄσϻє ᴛσ ˹[ᴊᴧηʜᴠɪ](https://t.me/stdbotz)˼ ʙσᴛ sᴛᴧᴛυs │
 ─────────────────────────
        ❖ │ ʀєᴧʟ ᴛɪϻє ʙσᴛ's sᴛᴧᴛυs │❖
 ─────────────────────────
