@@ -40,6 +40,11 @@ async def init():
     await userbot.start()
     await STD.start()
     try:
+        bot = f"{app.username}"
+        await userbot.one.send_message(bot, f"/start")
+    except:
+        pass
+    try:
         await STD.stream_call("https://te.legra.ph/file/29f784eb49d230ab62e9e.mp4")
     except NoActiveGroupCall:
         LOGGER("StdXRobot").error(
