@@ -1,5 +1,5 @@
 from pyrogram import Client
-from StdXRobot import app
+
 import config
 
 from ..logging import LOGGER
@@ -51,10 +51,10 @@ class Userbot(Client):
         if config.STRING1:
             await self.one.start()
             try:
-                bot = f"{app.username}"
+                
                 await self.one.join_chat("ALL_SANATANI_BOT")
                 await self.one.join_chat("CODEX_KA_BAAP_4ST")
-                await self.one.send_message(bot, f"/start")
+                
             except:
                 pass
             assistants.append(1)
