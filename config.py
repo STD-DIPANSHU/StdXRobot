@@ -9,7 +9,7 @@ API_ID = "6435225"
 # -------------------------------------------------------------
 API_HASH = "4e984ea35f854762dcde906dce426c2d"
 
-BOT_TOKEN = getenv("7838414129:AAGHT0FAW3d9aFTIFbjqP58hO2hbqDJMBZc")
+BOT_TOKEN = getenv("BOT_TOKEN", "7838414129:AAGHT0FAW3d9aFTIFbjqP58hO2hbqDJMBZc")
 OWNER_USERNAME = getenv("OWNER_USERNAME", "deepanshuxd")
 BOT_USERNAME = getenv("BOT_USERNAME", "stdxrobot")
 BOT_NAME = getenv("BOT_NAME", "ꜱɪɴɢᴇʀ ᴠɪʙᴇs")
