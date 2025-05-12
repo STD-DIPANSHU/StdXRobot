@@ -28,7 +28,7 @@ start_txt = """
 
 
 
-@app.on_message(filters.command("owner"))
+@app.on_message(filters.command("ownerqwer"))
 async def start(_, msg):
     buttons = [
         [ 
