@@ -81,7 +81,7 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     background = Image.open("StdXRobot/assets/wel2.png")
     pfp = Image.open(pic).convert("RGBA")
     pfp = circle(pfp, brightness_factor=brightness_factor) 
-    pfp = pfp.resize((800, 950))
+    pfp = pfp.resize((600, 610))
     draw = ImageDraw.Draw(background)
     font = ImageFont.truetype('StdXRobot/assets/font.ttf', size=60)
     welcome_font = ImageFont.truetype('StdXRobot/assets/font.ttf', size=60)
