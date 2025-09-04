@@ -1,103 +1,94 @@
+# StdXRobot/plugins/tools/biocheck.py
+
 import re
 from pyrogram import filters
 from pyrogram.types import ChatPermissions
-from StdXRobot import app  # <-- yahi tera main client hai
+from StdXRobot import app  # ✅ correct import
 
-# --- URL regex for detecting links in bio ---
-URL_PATTERN = re.compile(r"(https?://|t\.me/|www\.)", re.IGNORECASE)
+# Bio check on/off toggle per chat
+BIO_CHECK_ENABLED = {}
 
-# group ke hisaab se on/off toggle aur warnings track karne ke liye memory
-bio_check_enabled = {}
-bio_warnings = {}  # {chat_id: {user_id: warn_count}}
+# Warning counter per chat per user
+WARNINGS = {}
+
+# URL regex
+URL_PATTERN = re.compile(r"https?://\S+|t\.me/\S+|@[\w\d_]+")
 
 
-# --- helper: admin check ---
-async def is_admin(chat_id, user_id):
+# ---------- Utility: Admin Check ----------
+async def is_admin(chat_id: int, user_id: int) -> bool:
     try:
         member = await app.get_chat_member(chat_id, user_id)
-        return member.status in ("administrator", "creator", "owner", "admins", "admin")
-    except:
+        print(f"[DEBUG] User {user_id} status = {member.status}")  # Debug log
+        return member.status in ["administrator", "creator"]
+    except Exception as e:
+        print(f"[ERROR] Admin check failed: {e}")
         return False
 
 
-# --- COMMAND: /biocheck on/off/status ---
-@app.on_message(filters.command("biocheck", prefixes="/") & filters.group)
-async def toggle_bio_check(client, message):
+# ---------- Command: Toggle bio check ----------
+@app.on_message(filters.command("biocheck", prefixes=["/", "!", "."]) & filters.group)
+async def toggle_biocheck(_, message):
+    if not message.from_user:
+        return
+
     chat_id = message.chat.id
-    user = message.from_user
+    user_id = message.from_user.id
 
-    if not await is_admin(chat_id, user.id):
-        return await message.reply_text("❌ Only admins can toggle bio check.")
+    # Admin check
+    if not await is_admin(chat_id, user_id):
+        return await message.reply("❌ Only admins can toggle bio check.")
 
-    if len(message.command) < 2:
-        status = bio_check_enabled.get(chat_id, False)
-        return await message.reply_text(
-            f"ℹ️ Bio check is currently: **{'ON' if status else 'OFF'}**\n\nUse `/biocheck on` or `/biocheck off`",
-            quote=True,
-        )
+    # Toggle ON/OFF
+    status = BIO_CHECK_ENABLED.get(chat_id, False)
+    BIO_CHECK_ENABLED[chat_id] = not status
 
-    arg = message.command[1].lower()
-    if arg == "on":
-        bio_check_enabled[chat_id] = True
-        bio_warnings[chat_id] = {}
-        await message.reply_text("✅ Bio check has been **enabled** in this group.")
-    elif arg == "off":
-        bio_check_enabled[chat_id] = False
-        bio_warnings.pop(chat_id, None)
-        await message.reply_text("🚫 Bio check has been **disabled** in this group.")
-    else:
-        await message.reply_text("⚠️ Usage: `/biocheck on` or `/biocheck off`")
+    await message.reply(
+        f"✅ Bio link check is now {'ENABLED 🟢' if not status else 'DISABLED 🔴'} in this group."
+    )
 
 
-# --- AUTO CHECK: jab koi message kare group me ---
-@app.on_message(filters.group & ~filters.service, group=5)
-async def check_bio(client, message):
+# ---------- Listener: Monitor messages ----------
+@app.on_message(filters.group & ~filters.service)
+async def check_user_bio(_, message):
+    if not message.from_user:
+        return
+
     chat_id = message.chat.id
-    user = message.from_user
+    user_id = message.from_user.id
 
-    if not user or user.is_bot:
+    # Agar group me bio check off hai → skip
+    if not BIO_CHECK_ENABLED.get(chat_id, False):
         return
 
-    # agar bio-check off hai to skip
-    if not bio_check_enabled.get(chat_id, False):
+    # Admin skip
+    if await is_admin(chat_id, user_id):
         return
 
-    # agar user admin hai to skip
-    if await is_admin(chat_id, user.id):
-        return
-
-    # user ka bio le
     try:
-        user_info = await client.get_chat(user.id)
-        bio = user_info.bio or ""
-    except:
+        user = await app.get_chat(user_id)
+        bio = user.bio or ""
+    except Exception as e:
+        print(f"[ERROR] Cannot fetch bio for {user_id}: {e}")
         return
 
     if URL_PATTERN.search(bio):
-        try:
-            await message.delete()
-        except:
-            return await message.reply_text("⚠️ I need **delete messages** permission.")
-
-        # warnings track karo
-        user_warnings = bio_warnings.setdefault(chat_id, {})
-        count = user_warnings.get(user.id, 0) + 1
-        user_warnings[user.id] = count
+        # Warn user
+        WARNINGS.setdefault(chat_id, {})
+        WARNINGS[chat_id][user_id] = WARNINGS[chat_id].get(user_id, 0) + 1
+        count = WARNINGS[chat_id][user_id]
 
         if count < 3:
-            await message.reply_text(
-                f"⚠️ Warning {count}/3 issued to [{user.first_name}](tg://user?id={user.id})\n"
-                f"Reason: Link found in bio.\n\n"
-                f"❌ Remove links from your bio to avoid mute.",
-                disable_web_page_preview=True,
+            await message.reply(
+                f"⚠️ {message.from_user.mention}, link detected in your bio!\n"
+                f"Warning {count}/3 — remove link or you will be muted."
             )
         else:
             try:
-                await client.restrict_chat_member(chat_id, user.id, ChatPermissions())
-                await message.reply_text(
-                    f"🚨 [{user.first_name}](tg://user?id={user.id}) has been **muted**.\n"
-                    f"Reason: Link found in bio (3 warnings exceeded).",
-                    disable_web_page_preview=True,
+                await app.restrict_chat_member(chat_id, user_id, ChatPermissions())
+                await message.reply(
+                    f"🔇 {message.from_user.mention} has been muted for having links in bio."
                 )
-            except:
-                await message.reply_text("⚠️ I need **restrict members** permission to mute users.")
+                WARNINGS[chat_id][user_id] = 0  # reset warnings after mute
+            except Exception as e:
+                await message.reply(f"❌ Failed to mute user: {e}")
