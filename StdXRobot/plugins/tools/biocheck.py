@@ -1,7 +1,7 @@
 import re
 from pyrogram import filters
 from pyrogram.types import ChatPermissions
-from stdxrobot import app  # <-- yahi tera main client hai
+from StdXRobot import app  # <-- yahi tera main client hai
 
 # --- URL regex for detecting links in bio ---
 URL_PATTERN = re.compile(r"(https?://|t\.me/|www\.)", re.IGNORECASE)
