@@ -81,7 +81,7 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     background = Image.open("StdXRobot/assets/wel2.png")
     pfp = Image.open(pic).convert("RGBA")
     pfp = circle(pfp, brightness_factor=brightness_factor) 
-    pfp = pfp.resize((500, 500))
+    pfp = pfp.resize((900, 900))
     draw = ImageDraw.Draw(background)
     font = ImageFont.truetype('StdXRobot/assets/font.ttf', size=60)
     welcome_font = ImageFont.truetype('StdXRobot/assets/font.ttf', size=60)
@@ -90,7 +90,7 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
    # draw.text((630, 300), f'NAME: {user}', fill=(255, 255, 255), font=font)
     draw.text((1355, 939), f'ID:   {id}', fill=(285, 285, 685), font=font)
 
-    pfp_position = (300, 608)
+    pfp_position = (300, 508)
     background.paste(pfp, pfp_position, pfp)
     background.save(f"downloads/welcome#{id}.png")
     return f"downloads/welcome#{id}.png"
@@ -112,7 +112,7 @@ async def auto_state(_, message):
         if state == "off":
             if A:
                 await message.reply_text("**ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ᴀʟʀᴇᴀᴅʏ ᴅɪsᴀʙʟᴇᴅ !**")
-            else:
+            else5
                 await wlcm.add_wlcm(chat_id)
                 await message.reply_text(f"**ᴅɪsᴀʙʟᴇᴅ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ɪɴ** {message.chat.title}")
         elif state == "on":
