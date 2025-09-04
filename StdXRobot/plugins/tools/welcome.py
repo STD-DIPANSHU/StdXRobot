@@ -81,14 +81,14 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     background = Image.open("StdXRobot/assets/wel2.png")
     pfp = Image.open(pic).convert("RGBA")
     pfp = circle(pfp, brightness_factor=brightness_factor) 
-    pfp = pfp.resize((500, 500))
+    pfp = pfp.resize((900, 900))
     draw = ImageDraw.Draw(background)
-    font = ImageFont.truetype('StdXRobot/assets/font.ttf', size=60)
-    welcome_font = ImageFont.truetype('StdXRobot/assets/font.ttf', size=60)
+    font = ImageFont.truetype('StdXRobot/assets/font.ttf', size=70)
+    welcome_font = ImageFont.truetype('StdXRobot/assets/font.ttf', size=70)
     
  #   draw.text((630, 230), f"USERNAME : {uname}", fill=(255, 255, 255), font=font)
    # draw.text((630, 300), f'NAME: {user}', fill=(255, 255, 255), font=font)
-    draw.text((630, 450), f'ID: {id}', fill=(255, 255, 255), font=font)
+    draw.text((1355, 939), f'ID: {id}', fill=(255, 255, 255), font=font)
 
     pfp_position = (48, 88)
     background.paste(pfp, pfp_position, pfp)
