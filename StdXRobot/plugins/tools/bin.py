@@ -5,7 +5,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 STD = [
     [
-        InlineKeyboardButton(text="ᴀᴅᴅ ᴍᴇ ʙᴀʙʏ", url=f"https://t.me/HIMANSHI_MUSIC_BOT?startgroup=true"),
+        InlineKeyboardButton(text="ᴀᴅᴅ ᴍᴇ ʙᴀʙʏ", url=f"https://t.me/StdXRobot?startgroup=true"),
     ],
 ]
 
@@ -41,7 +41,7 @@ async def check_ccbin(client, message):
 <b>๏ ᴛʏᴘᴇ ➠</b> <tt>{resp.type}</tt>
 <b>๏ ᴠᴇɴᴅᴏʀ ➠</b> <tt>{resp.vendor}</tt>
 
-<b>❖ ʙɪɴ ᴄʜᴇᴄᴋᴇᴅ ʙʏ ➠ ʜᷟ ɪᷣ ᴍᷤ ᴧ η ɪ ᥫ᭡፝֟፝֟</b>""", reply_markup=InlineKeyboardMarkup(STD),
+<b>❖ ʙɪɴ ᴄʜᴇᴄᴋᴇᴅ ʙʏ ➠ ꜱᴛᴅ-ʙᴏᴛs</b>""", reply_markup=InlineKeyboardMarkup(STD),
         )
     except:
         return await aux.edit(f"""
