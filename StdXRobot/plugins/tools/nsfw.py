@@ -3,12 +3,13 @@ import aiohttp
 from pyrogram import filters, enums
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from StdXRobot import app
+from PIL import Image
 
-# ENV vars
+# ENV Vars (set in .env or server config)
 SIGHT_USER = os.getenv("624344670")
 SIGHT_SECRET = os.getenv("h76kxr8c4PgRYBnmCq7WG29tWCoKMHqW")
 
-# in-memory db
+# memory DB (restart ke baad reset ho jaega)
 nsfw_db = {}
 nsfw_mode = {}
 
@@ -21,10 +22,10 @@ POLICE = [
     ],
 ]
 
-# ---- API CALL ---- #
+# -------------------- SIGHTENGINE API -------------------- #
 async def check_nsfw(file_path: str) -> bool:
     """
-    Uploads media to Sightengine API and returns True if NSFW detected.
+    Upload media to Sightengine API and return True if NSFW.
     """
     url = "https://api.sightengine.com/1.0/check.json"
     data = {
@@ -50,12 +51,12 @@ async def check_nsfw(file_path: str) -> bool:
         if result.get("offensive", {}).get("prob", 0) > 0.8:
             return True
     except Exception as e:
-        print("NSFW check error:", e)
+        print("NSFW check parse error:", e)
 
     return False
 
 
-# ---- commands ---- #
+# -------------------- COMMANDS -------------------- #
 @app.on_message(filters.command("nsfwcheck") & ~filters.private)
 async def nsfw_switch(_, message):
     chat_id = message.chat.id
@@ -87,8 +88,8 @@ async def nsfw_mode_set(_, message):
         await message.reply_text("⚠️ Usage: **/nsfwmode [ban|mute]**")
 
 
-# ---- detector ---- #
-@app.on_message(filters.group & (filters.photo | filters.video | filters.animation))
+# -------------------- DETECTOR -------------------- #
+@app.on_message(filters.group & (filters.photo | filters.video | filters.animation | filters.sticker))
 async def nsfw_detector(_, message):
     chat_id = message.chat.id
     user = message.from_user
@@ -96,17 +97,42 @@ async def nsfw_detector(_, message):
     if not nsfw_db.get(chat_id):
         return
 
-    # download media
+    file_path = None
     try:
         file_path = await app.download_media(message, file_name="nsfw_temp")
     except Exception as e:
         print("Download error:", e)
         return
 
-    # api check
+    # ---- Stickers ---- #
+    if message.sticker:
+        if file_path.endswith(".webp"):  # static sticker
+            try:
+                im = Image.open(file_path).convert("RGB")
+                file_path = file_path.replace(".webp", ".jpg")
+                im.save(file_path, "JPEG")
+            except Exception as e:
+                print("Sticker convert error:", e)
+
+        elif file_path.endswith(".tgs") or file_path.endswith(".webm"):  # animated
+            try:
+                await message.delete()
+                await app.send_message(
+                    chat_id,
+                    f"🚫 Animated sticker by {user.mention if user else 'Unknown'} deleted (possible NSFW)."
+                )
+            except:
+                pass
+            try:
+                os.remove(file_path)
+            except:
+                pass
+            return
+
+    # ---- NSFW API Check ---- #
     is_nsfw = await check_nsfw(file_path)
 
-    # cleanup temp file
+    # cleanup
     try:
         os.remove(file_path)
     except:
@@ -120,7 +146,7 @@ async def nsfw_detector(_, message):
 
         punishment = nsfw_mode.get(chat_id, "mute")
         caption = f"""
-🚫 NSFW Media Detected 🥵⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣⁣
+🚫 NSFW Media Detected 🥵
 
  • Sᴇɴᴛ Bʏ » {user.mention if user else "Unknown"}
  • Uꜱᴇʀ ɪᴅ » `{user.id if user else 0}`
@@ -135,22 +161,20 @@ async def nsfw_detector(_, message):
             reply_to_message_id=message.id if message else None
         )
 
-        # apply punishment
+        # punishment
         try:
             if punishment == "mute":
-                await app.restrict_chat_member(
-                    chat_id,
-                    user.id,
-                    enums.ChatPermissions(),
-                )
+                await app.restrict_chat_member(chat_id, user.id, enums.ChatPermissions())
             elif punishment == "ban":
                 await app.ban_chat_member(chat_id, user.id)
         except Exception as e:
             print("Punishment failed:", e)
 
 
+# -------------------- HELP -------------------- #
 __mod__ = "ɴsғᴡ"
 __help__ = """
 **✦ /nsfwcheck [on|off]** - Enable or disable NSFW media check in group  
 **✦ /nsfwmode [ban|mute]** - Set punishment for NSFW users  
+- Detects: photo, video, gif, stickers (static/animated)  
 """
