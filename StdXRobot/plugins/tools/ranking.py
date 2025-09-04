@@ -1,5 +1,4 @@
 from datetime import datetime
-import random
 from pymongo import MongoClient
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -11,43 +10,35 @@ mongo_client = MongoClient(MONGO_DB_URI)
 db = mongo_client["natu_rankings"]
 collection = db["ranking"]
 
+# ----------------- In-Memory Today Tracker ----------------- #
 today = {}
-MISHI = [
-    "https://graph.org/file/f86b71018196c5cfe7344.jpg",
-    "https://graph.org/file/5b344a55f3d5199b63fa5.jpg",
-    "https://graph.org/file/84de4b440300297a8ecb3.jpg",
-]
 
-# ----------------- Watcher ----------------- #
+# ----------------- Message Counter ----------------- #
 @app.on_message(filters.group)
 def message_counter(_, message):
     user_id = message.from_user.id
-
-    # --- today ---
     chat_id = message.chat.id
-    if chat_id not in today:
-        today[chat_id] = {}
-    if user_id not in today[chat_id]:
-        today[chat_id][user_id] = {"total_messages": 1}
-    else:
-        today[chat_id][user_id]["total_messages"] += 1
 
-    # --- overall / week / month in DB ---
+    # Track today's messages
+    today.setdefault(chat_id, {}).setdefault(user_id, {"total_messages": 0})
+    today[chat_id][user_id]["total_messages"] += 1
+
+    # Update DB for overall, weekly, monthly
     now = datetime.utcnow()
     collection.update_one(
         {"_id": user_id},
         {
             "$inc": {
                 "total_messages": 1,
-                f"weekly.{now.isocalendar()[1]}": 1,  # week number
-                f"monthly.{now.month}": 1,           # month number
+                f"weekly.{now.isocalendar()[1]}": 1,
+                f"monthly.{now.month}": 1,
             }
         },
         upsert=True,
     )
 
-# ----------------- Helper ----------------- #
-async def make_leaderboard(title, data, key="total_messages"):
+# ----------------- Helper Functions ----------------- #
+async def make_leaderboard(title, data):
     response = f"**✦ 📈 {title.upper()} LEADERBOARD**\n\n"
     total_count = 0
     for idx, (uid, count) in enumerate(data, start=1):
@@ -62,13 +53,16 @@ async def make_leaderboard(title, data, key="total_messages"):
     return response
 
 def leaderboard_buttons(active="overall"):
-    return InlineKeyboardMarkup([[
-        InlineKeyboardButton(f"Overall {'✅' if active=='overall' else ''}", callback_data="overall"),
-        InlineKeyboardButton(f"Today {'✅' if active=='today' else ''}", callback_data="today"),
-    ],[
-        InlineKeyboardButton(f"Week {'✅' if active=='week' else ''}", callback_data="week"),
-        InlineKeyboardButton(f"Month {'✅' if active=='month' else ''}", callback_data="month"),
-    ]])
+    return InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton(f"Overall {'✅' if active=='overall' else ''}", callback_data="overall"),
+            InlineKeyboardButton(f"Today {'✅' if active=='today' else ''}", callback_data="today"),
+        ],
+        [
+            InlineKeyboardButton(f"Week {'✅' if active=='week' else ''}", callback_data="week"),
+            InlineKeyboardButton(f"Month {'✅' if active=='month' else ''}", callback_data="month"),
+        ]
+    ])
 
 # ----------------- Callback Handlers ----------------- #
 @app.on_callback_query(filters.regex("overall"))
