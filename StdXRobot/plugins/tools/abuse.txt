@@ -1,3 +1,7 @@
+from pyrogram import filters
+from StdXRobot import app
+
+# abuse list yaha daal diya hai
 abuse_list = [
     "aad", "aand", "bahenchod", "behenchod", "bhenchod", "bhenchodd", "b.c.", "bc", "bakchod", "bakchodd", "bakchodi",
     "bevda", "bewda", "bevdey", "bewday", "bevakoof", "bevkoof", "bevkuf", "bewakoof", "bewkoof", "bewkuf", "bhadua",
@@ -26,3 +30,21 @@ abuse_list = [
     "नुननी", "नुननु", "पाजी", "पेसाब", "पेशाब", "पिल्ला", "पिल्ले", "पिसाब", "पोरकिस्तान", "रांड", "रंडी",
     "सुअर", "सूअर", "टट्टे", "टट्टी", "उल्लू"
 ]
+
+@app.on_message(filters.group & filters.text)
+async def abuse_filter(_, message):
+    try:
+        if not message.text:
+            return
+
+        text = message.text.lower()
+        for word in abuse_list:
+            if word in text:
+                await message.delete()
+                # optional: agar warning dena hai to ye line rakho, warna hata do
+                await message.chat.send_message(
+                    f"🚫 {message.from_user.mention} abusive word detect hua → message delete kar diya."
+                )
+                break
+    except Exception as e:
+        print(f"[ERROR] Abuse filter: {e}")
