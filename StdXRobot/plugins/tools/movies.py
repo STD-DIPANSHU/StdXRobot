@@ -5,8 +5,8 @@ from config import MOVIES_CHANNEL_ID
 # -------- Movies Search Command -------- #
 @app.on_message(filters.command("movies", prefixes=["/", "!", "."]))
 async def movies_handler(client, message):
-    if not MOVIE_CHANNEL_ID:
-        return await message.reply_text("❌ Please set MOVIE_CHANNEL_ID in config.py")
+    if not MOVIES_CHANNEL_ID:
+        return await message.reply_text("❌ Please set MOVIES_CHANNEL_ID in config.py")
 
     if len(message.command) < 2:
         return await message.reply_text("⚠️ Usage: /movies <movie name>")
