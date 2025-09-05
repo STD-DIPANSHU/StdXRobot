@@ -1,15 +1,15 @@
 from pyrogram import filters
 from StdXRobot import app
-from config import MOVIE_CHANNEL_ID
+from config import MOVIES_CHANNEL_ID
 
-# -------- Movie Search Command -------- #
-@app.on_message(filters.command("movie", prefixes=["/", "!", "."]))
-async def movie_handler(client, message):
+# -------- Movies Search Command -------- #
+@app.on_message(filters.command("movies", prefixes=["/", "!", "."]))
+async def movies_handler(client, message):
     if not MOVIE_CHANNEL_ID:
         return await message.reply_text("❌ Please set MOVIE_CHANNEL_ID in config.py")
 
     if len(message.command) < 2:
-        return await message.reply_text("⚠️ Usage: /movie <movie name>")
+        return await message.reply_text("⚠️ Usage: /movies <movie name>")
 
     query = " ".join(message.command[1:]).strip()
     wait = await message.reply_text(f"🔎 Searching for **{query}** ...", quote=True)
@@ -17,7 +17,7 @@ async def movie_handler(client, message):
     try:
         results = []
         async for msg in client.search_messages(
-            chat_id=int(MOVIE_CHANNEL_ID),
+            chat_id=int(MOVIES_CHANNEL_ID),
             query=query,
             filter="all",
             limit=3
@@ -46,7 +46,7 @@ async def movie_handler(client, message):
 @app.on_message(filters.command("checkchannel", prefixes=["/", "!", "."]))
 async def check_channel(client, message):
     try:
-        chat = await client.get_chat(int(MOVIE_CHANNEL_ID))
+        chat = await client.get_chat(int(MOVIES_CHANNEL_ID))
         await message.reply_text(
             f"✅ Bot can access channel:\n\n"
             f"**Title:** {chat.title}\n"
