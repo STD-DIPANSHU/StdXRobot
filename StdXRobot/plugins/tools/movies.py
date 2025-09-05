@@ -1,6 +1,6 @@
 from pyrogram import filters
 from StdXRobot import app
-from mongo.moviesdb import add_movie_db, search_movie_db, get_all_movies
+from StdXRobot.mongo.moviesdb import add_movie_db, search_movie_db, get_all_movies
 
 # ============= ADD MOVIE ============= #
 @app.on_message(filters.command("addmovie") & filters.user([123456789]))  # apna admin ID daal
