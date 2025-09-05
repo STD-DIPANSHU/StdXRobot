@@ -1,26 +1,31 @@
-# StdXRobot/mongo/moviesdb.py
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 
-MONGO_DB_URI = os.getenv("MOVIES_DB_URI", None)  # alag env var rakha hai movies ke liye
-DB_NAME = "movies_db"
+# Alag MOVIE_DB_URI rakho (Heroku config me set karna mat bhoolna)
+MOVIE_DB_URI = os.getenv("MOVIE_DB_URI", None)
+if not MOVIE_DB_URI:
+    raise Exception("❌ MOVIE_DB_URI is not set in environment variables.")
 
-mongo_client = AsyncIOMotorClient(MONGO_DB_URI)
-db = mongo_client[DB_NAME]
-movies_collection = db.movies
+client = AsyncIOMotorClient(MOVIE_DB_URI)
+db = client["MovieDatabase"]
+movies_collection = db["movies"]
 
-# add movie
+# Add movie
 async def add_movie_db(title: str, file_id: str):
+    movie = {"title": title, "file_id": file_id}
     await movies_collection.update_one(
-        {"title": title},
-        {"$set": {"file_id": file_id}},
-        upsert=True,
+        {"title": {"$regex": f"^{title}$", "$options": "i"}},
+        {"$set": movie},
+        upsert=True
     )
 
-# search by title
+# Search movie
 async def search_movie_db(title: str):
-    return await movies_collection.find_one({"title": {"$regex": f"^{title}$", "$options": "i"}})
+    return await movies_collection.find_one(
+        {"title": {"$regex": f"{title}", "$options": "i"}}
+    )
 
-# get all movies
+# Get all movies
 async def get_all_movies():
-    return movies_collection.find({})
+    cursor = movies_collection.find({})
+    return await cursor.to_list(length=1000)
