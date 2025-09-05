@@ -2,31 +2,56 @@ from pyrogram import filters
 from StdXRobot import app
 from config import MOVIE_CHANNEL_ID
 
-@app.on_message(filters.command("movie"))
+# -------- Movie Search Command -------- #
+@app.on_message(filters.command("movie", prefixes=["/", "!", "."]))
 async def movie_handler(client, message):
-    if len(message.command) < 2:
-        return await message.reply_text("❌ Please provide a movie name.\n\nUsage: `/movie pushpa`")
+    if not MOVIE_CHANNEL_ID:
+        return await message.reply_text("❌ Please set MOVIE_CHANNEL_ID in config.py")
 
-    query = " ".join(message.command[1:]).lower()
+    if len(message.command) < 2:
+        return await message.reply_text("⚠️ Usage: /movie <movie name>")
+
+    query = " ".join(message.command[1:]).strip()
+    wait = await message.reply_text(f"🔎 Searching for **{query}** ...", quote=True)
 
     try:
-        # Channel me search karo (sab type)
+        results = []
         async for msg in client.search_messages(
-            chat_id=MOVIE_CHANNEL_ID,
+            chat_id=int(MOVIE_CHANNEL_ID),
             query=query,
-            filter="all",   # sab check karega: video, doc, text, photo
-            limit=1
+            filter="all",
+            limit=3
         ):
-            if msg:
-                try:
-                    # Forward user ke DM me
-                    await msg.copy(message.from_user.id)
-                    return await message.reply_text("✅ Movie sent in your DM! Check your private chat.")
-                except Exception as e:
-                    return await message.reply_text("⚠️ Start the bot in DM first, then try again.")
+            results.append(msg)
 
-        # Agar kuch na mila
-        await message.reply_text("❌ Movie not found. Check spelling or ask owner to upload it.")
+        if not results:
+            return await wait.edit("❌ Movie not found.\nCheck spelling or make sure bot has read access to the channel.")
+
+        # Try DM
+        try:
+            for msg in results:
+                await msg.copy(chat_id=message.from_user.id)
+            await wait.edit("✅ Movie sent in your DM.")
+        except Exception:
+            # If DM blocked, send in group
+            for msg in results:
+                await msg.copy(chat_id=message.chat.id)
+            await wait.edit("⚠️ Couldn't DM you, sent here instead.")
 
     except Exception as e:
-        await message.reply_text(f"❌ Error: {e}")
+        await wait.edit(f"⚠️ API error: `{e}`")
+
+
+# -------- Debug Command -------- #
+@app.on_message(filters.command("checkchannel", prefixes=["/", "!", "."]))
+async def check_channel(client, message):
+    try:
+        chat = await client.get_chat(int(MOVIE_CHANNEL_ID))
+        await message.reply_text(
+            f"✅ Bot can access channel:\n\n"
+            f"**Title:** {chat.title}\n"
+            f"**ID:** {chat.id}\n"
+            f"**Type:** {chat.type}"
+        )
+    except Exception as e:
+        await message.reply_text(f"❌ Bot cannot access channel:\n\n`{e}`")
