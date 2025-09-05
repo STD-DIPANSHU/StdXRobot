@@ -2,11 +2,11 @@ from motor.motor_asyncio import AsyncIOMotorClient
 import os
 
 # Alag MOVIE_DB_URI rakho (Heroku config me set karna mat bhoolna)
-MOVIE_DB_URI = os.getenv("MOVIE_DB_URI", None)
-if not MOVIE_DB_URI:
+MOVIES_DB_URI = os.getenv("MOVIES_DB_URI", None)
+if not MOVIES_DB_URI:
     raise Exception("❌ MOVIE_DB_URI is not set in environment variables.")
 
-client = AsyncIOMotorClient(MOVIE_DB_URI)
+client = AsyncIOMotorClient(MOVIES_DB_URI)
 db = client["MovieDatabase"]
 movies_collection = db["movies"]
 
