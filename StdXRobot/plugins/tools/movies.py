@@ -1,57 +1,37 @@
 from pyrogram import Client, filters
-from StdXRobot.mongo.moviesdb import add_movie_db, search_movie_db, get_all_movies
+from StdXRobot.mongo.moviesdb import add_movie_db, search_movie_db
 
-# Command to add movies manually
-@Client.on_message(filters.command("addmovie") & filters.reply)
-async def add_movie(client, message):
-    if len(message.command) < 2:
-        return await message.reply_text("⚠️ Usage: reply to a file with `/addmovie Movie Name`")
+from config import MOVIES_CHANNEL_ID
 
-    title = " ".join(message.command[1:])
-    if not message.reply_to_message.document and not message.reply_to_message.video:
-        return await message.reply_text("⚠️ Reply to a document or video file to save as movie.")
+# Automatically add movies to DB when posted in channel
+@Client.on_message(filters.chat(MOVIES_CHANNEL_ID) & (filters.video | filters.document))
+async def save_movies(client, message):
+    title = message.caption or "Untitled"
+    file_id = message.video.file_id if message.video else message.document.file_id
+    file_type = "video" if message.video else "document"
 
-    file_id = (
-        message.reply_to_message.document.file_id
-        if message.reply_to_message.document
-        else message.reply_to_message.video.file_id
-    )
+    await add_movie_db(title, file_id, file_type)
+    print(f"✅ Added to DB: {title}")
 
-    await add_movie_db(title, file_id)
-    await message.reply_text(f"✅ **{title}** added to database.")
-
-
-# Command to fetch movies by name
+# Search movies and send to user
 @Client.on_message(filters.command("movies"))
 async def get_movie(client, message):
     if len(message.command) < 2:
-        return await message.reply_text("⚠️ Usage: `/movies Movie Name`")
+        return await message.reply_text("⚠️ Usage: `/movies Movie Name`", quote=True)
 
     query = " ".join(message.command[1:])
     movie = await search_movie_db(query)
 
-    if movie:
-        try:
-            await client.send_document(
-                chat_id=message.from_user.id,
-                document=movie["file_id"],
-                caption=f"🎬 **{movie['title']}**"
-            )
-            await message.reply_text("✅ Movie sent in your DM.")
-        except Exception as e:
-            await message.reply_text(f"⚠️ Error sending movie: {e}")
-    else:
-        await message.reply_text("❌ Movie not found in database.")
+    if not movie:
+        return await message.reply_text("❌ Movie not found.", quote=True)
 
+    try:
+        if movie["file_type"] == "video":
+            await client.send_video(message.from_user.id, movie["file_id"], caption=f"🎬 {movie['title']}")
+        else:
+            await client.send_document(message.from_user.id, movie["file_id"], caption=f"🎬 {movie['title']}")
 
-# Command to list all movies
-@Client.on_message(filters.command("allmovies"))
-async def list_movies(client, message):
-    movies = await get_all_movies()
-    if not movies:
-        return await message.reply_text("❌ No movies in database.")
+        await message.reply_text("✅ Movie sent to your DM!", quote=True)
 
-    text = "🎬 **Available Movies:**\n\n"
-    text += "\n".join([f"• {movie['title']}" for movie in movies])
-
-    await message.reply_text(text)
+    except Exception as e:
+        await message.reply_text(f"⚠️ Error: {e}", quote=True)
