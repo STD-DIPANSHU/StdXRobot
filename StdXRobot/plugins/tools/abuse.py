@@ -32,7 +32,7 @@ abuse_list = [
 ]
 
 @app.on_message(filters.group & filters.text, group=-18)
-async def abuse_filter(_, message):
+async def abuse_filter(client, message):
     try:
         if not message.text:
             return
@@ -45,6 +45,6 @@ async def abuse_filter(_, message):
                 await message.chat.send_message(
                     f"🚫 {message.from_user.mention} abusive word detect hua → message delete kar diya."
                 )
-                break
+                return 
     except Exception as e:
         print(f"[ERROR] Abuse filter: {e}")
