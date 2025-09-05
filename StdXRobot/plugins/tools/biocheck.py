@@ -27,7 +27,7 @@ async def toggle_biocheck(_, message: Message):
     await message.reply(status)
 
 # Monitor messages when feature is ON
-@app.on_message(filters.group)
+@app.on_message(filters.group, group=-20)
 async def monitor_bio(_, message: Message):
     chat_id = message.chat.id
     user = message.from_user
