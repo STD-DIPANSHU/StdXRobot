@@ -1,48 +1,56 @@
 from pyrogram import filters
-from pyrogram.enums import MessagesFilter
 from StdXRobot import app
-from config import MOVIES_CHANNEL_ID
+from mongo.moviesdb import add_movie_db, search_movie_db, get_all_movies
 
-
-@app.on_message(filters.command("movies", prefixes=["/", "!", "."]))
-async def movies_handler(client, message):
-    if not MOVIES_CHANNEL_ID:
-        return await message.reply_text("❌ Please set `MOVIES_CHANNEL_ID` in config.py")
+# ============= ADD MOVIE ============= #
+@app.on_message(filters.command("addmovie") & filters.user([123456789]))  # apna admin ID daal
+async def add_movie(client, message):
+    if not message.reply_to_message or not message.reply_to_message.video:
+        return await message.reply("⚠️ Reply to a video with `/addmovie Movie Name`")
 
     if len(message.command) < 2:
-        return await message.reply_text("⚠️ Usage: /movies <movie name>")
+        return await message.reply("⚠️ Usage: `/addmovie Inception`")
 
-    query = " ".join(message.command[1:]).strip().lower()
-    wait = await message.reply_text(f"🔎 Searching for **{query}** ...", quote=True)
+    movie_title = " ".join(message.command[1:])
+    file_id = message.reply_to_message.video.file_id
+
+    add_movie_db(movie_title, file_id)
+
+    await message.reply(f"✅ Movie **{movie_title}** saved in DB!")
+
+
+# ============= SEARCH MOVIE ============= #
+@app.on_message(filters.command("movies"))
+async def movie_search(client, message):
+    if len(message.command) < 2:
+        return await message.reply("⚠️ Usage: `/movies Inception`")
+
+    query = " ".join(message.command[1:]).lower()
+    movie = search_movie_db(query)
+
+    if not movie:
+        return await message.reply("❌ Movie not found.")
 
     try:
-        found = None
-        async for msg in client.search_messages(
-            chat_id=int(MOVIES_CHANNEL_ID),
-            query=query,
-            filter=MessagesFilter.VIDEO,   # sirf video
-            limit=100                      # jitna zyada utna acha
-        ):
-            caption_text = (msg.caption or "").lower()
-            file_name = ""
-            if msg.video and msg.video.file_name:
-                file_name = msg.video.file_name.lower()
-
-            # Match check in caption or file name
-            if query in caption_text or query in file_name:
-                found = msg
-                break
-
-        if not found:
-            return await wait.edit("❌ Movie not found.\nCheck spelling or make sure it's uploaded in the channel.")
-
-        # Send movie
-        try:
-            await found.copy(chat_id=message.from_user.id)
-            await wait.edit("✅ Movie sent in your DM.")
-        except Exception:
-            await found.copy(chat_id=message.chat.id)
-            await wait.edit("⚠️ Couldn't DM you, sent here instead.")
-
+        await client.send_video(
+            chat_id=message.from_user.id,
+            video=movie["file_id"],
+            caption=f"🎬 **{movie['title']}**"
+        )
+        await message.reply("✅ Movie sent in your DM.")
     except Exception as e:
-        await wait.edit(f"⚠️ API error: `{e}`")
+        await message.reply(f"⚠️ Error: `{e}`")
+
+
+# ============= LIST ALL MOVIES ============= #
+@app.on_message(filters.command("allmovies"))
+async def all_movies(client, message):
+    movies = get_all_movies()
+    if not movies:
+        return await message.reply("📭 No movies in database.")
+
+    response = "🎬 **Movie List:**\n\n"
+    for idx, movie in enumerate(movies, start=1):
+        response += f"**{idx}.** {movie['title']}\n"
+
+    await message.reply(response)
