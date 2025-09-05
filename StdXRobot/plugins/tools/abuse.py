@@ -38,13 +38,9 @@ async def abuse_filter(client, message):
             return
 
         text = message.text.lower()
-        for word in abuse_list:
-            if word in text:
-                await message.delete()
-                # optional: agar warning dena hai to ye line rakho, warna hata do
-                await message.chat.send_message(
-                    f"🚫 {message.from_user.mention} abusive word detect hua → message delete kar diya."
-                )
-                return 
+        if any(word in text for word in abuse_list):
+            await message.delete()
+            return await message.chat.send_message(f"🚫 {message.from_user.mention} abusive word detect hua → message delete kar diya.")
+            
     except Exception as e:
         print(f"[ERROR] Abuse filter: {e}")
