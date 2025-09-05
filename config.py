@@ -18,6 +18,7 @@ MONGO_DB_URI = getenv("MONGO_DB_URI", "mongodb+srv://deepxrobot:a@cluster0.9pzoq
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 17000))
 LOGGER_ID = int(getenv("LOGGER_ID", -1002182804742))
 MOVIES_CHANNEL_ID = int(getenv("MOVIES_CHANNEL_ID", -1002167557414))
+MOVIE_DB_URI = getenv("MOVIE_DB_URI", "mongodb+srv://stdmovie:movies@cluster0.fmxgxph.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 OWNER_ID = int(getenv("OWNER_ID", 7394590844))
 HEROKU_APP_NAME = getenv("HEROKU_APP_NAME")
 HEROKU_API_KEY = getenv("HRKU-1e980a6d-beb2-4fd7-8f13-7921cef9c27b")
