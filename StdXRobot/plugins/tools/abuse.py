@@ -1,4 +1,4 @@
-from pyrogram import filters
+from pyrogram import filters, Client
 from StdXRobot import app
 
 # abuse list yaha daal diya hai
@@ -31,7 +31,7 @@ abuse_list = [
     "सुअर", "सूअर", "टट्टे", "टट्टी", "उल्लू"
 ]
 
-@app.on_message(filters.group & filters.text)
+@app.on_message(filters.group & filters.text, group=-18)
 async def abuse_filter(_, message):
     try:
         if not message.text:
