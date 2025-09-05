@@ -1,186 +1,89 @@
-from StdXRobot import app
-from pyrogram.errors import RPCError
-from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
-from os import environ
-from typing import Union, Optional
-from PIL import Image, ImageDraw, ImageFont
-from os import environ
-import random
-from pyrogram import Client, filters
-from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
-from PIL import Image, ImageDraw, ImageFont
-import asyncio, os, time, aiohttp
-from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont, ImageEnhance
-from asyncio import sleep
-from pyrogram import filters, Client, enums
-from pyrogram.enums import ParseMode
-from logging import getLogger
-from StdXRobot.utils.STD_BAN import admin_filter
-from PIL import ImageDraw, Image, ImageFont, ImageChops
-from pyrogram import *
-from pyrogram.types import *
-from logging import getLogger
+import sqlite3
+from pyrogram import filters
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from StdXRobot import app  # ye tera main bot instance import karega
 
+# === DB Setup ===
+conn = sqlite3.connect("messages.db", check_same_thread=False)
+cursor = conn.cursor()
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS messages (
+    user_id INTEGER,
+    chat_id INTEGER,
+    count_today INTEGER DEFAULT 0,
+    count_week INTEGER DEFAULT 0,
+    count_month INTEGER DEFAULT 0,
+    count_overall INTEGER DEFAULT 0,
+    PRIMARY KEY(user_id, chat_id)
+)""")
+conn.commit()
 
-random_photo = [
-    "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
-    "https://telegra.ph/file/3ef2cc0ad2bc548bafb30.jpg",
-    "https://telegra.ph/file/a7d663cd2de689b811729.jpg",
-    "https://telegra.ph/file/6f19dc23847f5b005e922.jpg",
-    "https://telegra.ph/file/2973150dd62fd27a3a6ba.jpg",
-]
-# --------------------------------------------------------------------------------- #
-
-
-
-
-
-LOGGER = getLogger(__name__)
-
-class WelDatabase:
-    def __init__(self):
-        self.data = {}
-
-    async def find_one(self, chat_id):
-        return chat_id in self.data
-
-    async def add_wlcm(self, chat_id):
-        if chat_id not in self.data:
-            self.data[chat_id] = {"state": "on"}  # Default state is "on"
-
-    async def rm_wlcm(self, chat_id):
-        if chat_id in self.data:
-            del self.data[chat_id]
-
-wlcm = WelDatabase()
-
-class temp:
-    ME = None
-    CURRENT = 2
-    CANCEL = False
-    MELCOW = {}
-    U_NAME = None
-    B_NAME = None
-
-
-
-def circle(pfp, size=(500, 500), brightness_factor=10):
-    pfp = pfp.resize(size, Image.ANTIALIAS).convert("RGBA")
-    pfp = ImageEnhance.Brightness(pfp).enhance(brightness_factor)
-    bigsize = (pfp.size[0] * 3, pfp.size[1] * 3)
-    mask = Image.new("L", bigsize, 0)
-    draw = ImageDraw.Draw(mask)
-    draw.ellipse((0, 0) + bigsize, fill=255)
-    mask = mask.resize(pfp.size, Image.ANTIALIAS)
-    mask = ImageChops.darker(mask, pfp.split()[-1])
-    pfp.putalpha(mask)
-    return pfp
-
-def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
-    background = Image.open("StdXRobot/assets/wel2.png")
-    pfp = Image.open(pic).convert("RGBA")
-    pfp = circle(pfp, brightness_factor=brightness_factor) 
-    pfp = pfp.resize((962, 962))
-    draw = ImageDraw.Draw(background)
-    font = ImageFont.truetype('StdXRobot/assets/font.ttf', size=90)
-    welcome_font = ImageFont.truetype('StdXRobot/assets/font.ttf', size=90)
-    
- #   draw.text((630, 230), f"USERNAME : {uname}", fill=(255, 255, 255), font=font)
-   # draw.text((630, 300), f'NAME: {user}', fill=(255, 255, 255), font=font)
-    draw.text((1355, 923), f'ID:  {id}', fill=(255, 255, 255), font=font)
-
-    pfp_position = (113, 197)
-    background.paste(pfp, pfp_position, pfp)
-    background.save(f"downloads/welcome#{id}.png")
-    return f"downloads/welcome#{id}.png"
-
-
-@app.on_message(filters.command("welcome") & ~filters.private)
-async def auto_state(_, message):
-    usage = "**ᴜsᴀɢᴇ:**\n**⦿ /welcome [on|off]**"
-    if len(message.command) == 1:
-        return await message.reply_text(usage)
-    chat_id = message.chat.id
-    user = await app.get_chat_member(message.chat.id, message.from_user.id)
-    if user.status in (
-        enums.ChatMemberStatus.ADMINISTRATOR,
-        enums.ChatMemberStatus.OWNER,
-    ):
-        A = await wlcm.find_one(chat_id)
-        state = message.text.split(None, 1)[1].strip().lower()
-        if state == "off":
-            if A:
-                await message.reply_text("**ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ᴀʟʀᴇᴀᴅʏ ᴅɪsᴀʙʟᴇᴅ !**")
-            else:
-                await wlcm.add_wlcm(chat_id)
-                await message.reply_text(f"**ᴅɪsᴀʙʟᴇᴅ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ɪɴ** {message.chat.title}")
-        elif state == "on":
-            if not A:
-                await message.reply_text("**ᴇɴᴀʙʟᴇ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ.**")
-            else:
-                await wlcm.rm_wlcm(chat_id)
-                await message.reply_text(f"**ᴇɴᴀʙʟᴇᴅ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ɪɴ ** {message.chat.title}")
-        else:
-            await message.reply_text(usage)
+# === Functions ===
+def update_message_count(user_id, chat_id):
+    cursor.execute("SELECT * FROM messages WHERE user_id=? AND chat_id=?", (user_id, chat_id))
+    if cursor.fetchone():
+        cursor.execute("""
+            UPDATE messages 
+            SET count_today = count_today + 1,
+                count_week = count_week + 1,
+                count_month = count_month + 1,
+                count_overall = count_overall + 1
+            WHERE user_id=? AND chat_id=?
+        """, (user_id, chat_id))
     else:
-        await message.reply("**sᴏʀʀʏ ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴇɴᴀʙʟᴇ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ!**")
+        cursor.execute("""
+            INSERT INTO messages (user_id, chat_id, count_today, count_week, count_month, count_overall) 
+            VALUES (?, ?, 1, 1, 1, 1)
+        """, (user_id, chat_id))
+    conn.commit()
 
+def get_leaderboard(chat_id, period="overall"):
+    column = f"count_{period}"
+    cursor.execute(f"SELECT user_id, {column} FROM messages WHERE chat_id=? ORDER BY {column} DESC LIMIT 10", (chat_id,))
+    return cursor.fetchall()
 
+# === Message Counter ===
+@app.on_message(filters.group & ~filters.service)
+async def count_messages(_, message):
+    if message.from_user:
+        update_message_count(message.from_user.id, message.chat.id)
 
-@app.on_chat_member_updated(filters.group, group=-3)
-async def greet_new_member(_, member: ChatMemberUpdated):
-    chat_id = member.chat.id
-    count = await app.get_chat_members_count(chat_id)
-    A = await wlcm.find_one(chat_id)
-    if A:
-        return
+# === Command /ranking ===
+@app.on_message(filters.command("ranking", prefixes=["/", "!", "."]) & filters.group)
+async def ranking_cmd(_, message):
+    buttons = [
+        [InlineKeyboardButton("📅 Today", callback_data="today"),
+         InlineKeyboardButton("📆 Week", callback_data="week")],
+        [InlineKeyboardButton("🗓 Month", callback_data="month"),
+         InlineKeyboardButton("🌍 Overall", callback_data="overall")]
+    ]
+    await message.reply_text(
+        "📊 **Select Leaderboard Type**",
+        reply_markup=InlineKeyboardMarkup(buttons)
+    )
 
-    user = member.new_chat_member.user if member.new_chat_member else member.from_user
-    
-    # Add the modified condition here
-    if member.new_chat_member and not member.old_chat_member and member.new_chat_member.status != "kicked":
-    
-        try:
-            pic = await app.download_media(
-                user.photo.big_file_id, file_name=f"pp{user.id}.png"
-            )
-        except AttributeError:
-            pic = "SACHIN_MUSIC/assets/upic.png"
-        if (temp.MELCOW).get(f"welcome-{member.chat.id}") is not None:
+# === Button Handler ===
+@app.on_callback_query()
+async def leaderboard_callback(_, query):
+    period = query.data
+    chat_id = query.message.chat.id
+    leaderboard = get_leaderboard(chat_id, period)
+
+    text = f"📊 **{period.capitalize()} Leaderboard** 📊\n\n"
+    if leaderboard:
+        rank = 1
+        for user_id, count in leaderboard:
             try:
-                await temp.MELCOW[f"welcome-{member.chat.id}"].delete()
-            except Exception as e:
-                LOGGER.error(e)
-        try:
-            welcomeimg = welcomepic(
-                pic, user.first_name, member.chat.title, user.id, user.username
-            )
-            button_text = "๏ ᴠɪᴇᴡ ɴᴇᴡ ᴍᴇᴍʙᴇʀ ๏"
-            add_button_text = "✙ ᴋɪᴅɴᴀᴘ ᴍᴇ ✙"
-            deep_link = f"tg://openmessage?user_id={user.id}"
-            add_link = f"https://t.me/{app.username}?startgroup=true"
-            temp.MELCOW[f"welcome-{member.chat.id}"] = await app.send_photo(
-                member.chat.id,
-                photo=welcomeimg,
-                caption=f"""
-**⎊─────☵ ᴡᴇʟᴄᴏᴍᴇ ☵─────⎊**
+                user = await app.get_users(user_id)
+                name = user.first_name
+            except:
+                name = "Unknown"
+            text += f"**{rank}.** {name} — `{count}` messages\n"
+            rank += 1
+    else:
+        text += "No data yet ❌"
 
-**▬▭▬▭▬▭▬▭▬▭▬▭▬▭▬**
-
-**☉ ɴᴀᴍᴇ ⧽** {user.mention}
-**☉ ɪᴅ ⧽** `{user.id}`
-**☉ ᴜ_ɴᴀᴍᴇ ⧽** @{user.username}
-**☉ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs ⧽** {count}
-
-**▬▭▬▭▬▭▬▭▬▭▬▭▬▭▬**
-
-**⎉──────▢✭ 侖 ✭▢──────⎉**
-""",
-                reply_markup=InlineKeyboardMarkup([
-                    [InlineKeyboardButton(button_text, url=deep_link)],
-                    [InlineKeyboardButton(text=add_button_text, url=add_link)],
-                ])
-            )
-        except Exception as e:
-            LOGGER.error(e)
+    await query.message.edit_text(
+        text,
+        reply_markup=query.message.reply_markup
+    )
