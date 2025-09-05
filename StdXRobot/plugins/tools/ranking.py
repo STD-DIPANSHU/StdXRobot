@@ -14,7 +14,7 @@ collection = db["ranking"]
 today = {}
 
 # ----------------- Message Counter ----------------- #
-@app.on_message(filters.group)
+@app.on_message(filters.group, group=-19)
 def message_counter(_, message):
     user_id = message.from_user.id
     chat_id = message.chat.id
