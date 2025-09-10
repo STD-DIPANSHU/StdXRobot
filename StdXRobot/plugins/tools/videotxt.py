@@ -19,7 +19,7 @@ def convert_video_to_text(video_path):
 
 # ----------------------------------------------
 
-@app.on_message(filters.command("vtxt") & filters.reply)
+@app.on_message(filters.command("vtxt", prefixes="/") & filters.reply)
 def convert_video_to_text_cmd(_, message: Message):
     # -------------------------------
     video_path = message.reply_to_message.download("video.mp4")
