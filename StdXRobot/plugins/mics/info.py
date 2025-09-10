@@ -55,7 +55,7 @@ async def get_userinfo_img(
 
 # --------------------------------------------------------------------------------- #
 
-bg_path = "StdXRobot/assets/STDINFO.PNG"
+bg_path = "StdXRobot/assets/STDINFO.png"
 font_path = "StdXRobot/assets/hiroko.ttf"
 
 #
