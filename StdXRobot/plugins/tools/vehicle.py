@@ -1,4 +1,4 @@
-# vehicle.py
+# plugins/vehicle.py
 import httpx
 from StdXRobot import app
 from pyrogram import filters
@@ -29,20 +29,13 @@ async def vehicle_lookup(client, message):
             )
             return
 
-        try:
-            data = response.json().get("processedData", {})
-        except Exception:
-            await message.reply(
-                f"❌ Invalid JSON Response:\n\n{response.text[:400]}",
-                quote=True
-            )
-            return
+        result = response.json()
+        data = result.get("processedData", {})
 
         if not data:
             await message.reply("⚠️ No processed data found for this vehicle.", quote=True)
             return
 
-        # === FORMATTED REPORT ===
         text = f"""
 **🚦 Vehicle Info Report**
 ━━━━━━━━━━━━━━━
