@@ -1,32 +1,49 @@
-# StdXRobot/plugins/tools/vehicle.py
-
+# vehicle.py
 import httpx
 from StdXRobot import app
 from pyrogram import filters
-from pyrogram.types import Message
 
+API_URL = "https://vehicle-infoapi.vercel.app/api"
+API_KEY = "test"  # apna API key
 
-API_URL = "https://vehicle-infoapi.vercel.app/"  # apna actual API endpoint daal
-
-
-@app.on_message(filters.command(["vehicle", "rc"]))
-async def vehicle_lookup(_, message: Message):
+@app.on_message(filters.command("vehicle"))
+async def vehicle_lookup(client, message):
     if len(message.command) < 2:
-        await message.reply("⚠️ Example: `/vehicle MH12AB1234`", quote=True)
+        await message.reply(
+            "❌ Please provide a vehicle number.\n\nUsage: `/vehicle MH12AB1234`",
+            quote=True
+        )
         return
 
-    reg_number = message.command[1]
+    reg_number = message.command[1].upper().replace("-", "").replace(" ", "")
 
     try:
         async with httpx.AsyncClient(timeout=30) as client_http:
-            response = await client_http.get(f"{API_URL}?regno={reg_number}")
-            if response.status_code != 200:
-                await message.reply(f"❌ API Error: {response.status_code}", quote=True)
-                return
+            url = f"{API_URL}?vin={reg_number}&key={API_KEY}"
+            response = await client_http.get(url)
 
+        if response.status_code != 200:
+            await message.reply(
+                f"❌ API Error {response.status_code}\n\n{response.text[:400]}",
+                quote=True
+            )
+            return
+
+        try:
             data = response.json().get("processedData", {})
+        except Exception:
+            await message.reply(
+                f"❌ Invalid JSON Response:\n\n{response.text[:400]}",
+                quote=True
+            )
+            return
 
-            text = f"""
+        if not data:
+            await message.reply("⚠️ No processed data found for this vehicle.", quote=True)
+            return
+
+        # === FORMATTED REPORT ===
+        text = f"""
 **🚦 Vehicle Info Report**
 ━━━━━━━━━━━━━━━
 🔹 **Registration No:** `{data.get('Meta Data Response Result Reg No', 'N/A')}`
@@ -57,10 +74,9 @@ async def vehicle_lookup(_, message: Message):
 🔸 RTO Code: {data.get('Meta Data Response Result Rto Code', 'N/A')}
 🔸 Authority: {data.get('Meta Data Response Result Reg Authority', 'N/A')}
 
-━━━━━━━━━━━━━━━
-⚡ Source: {data.get('source', 'API')}
+⚙️ **Source:** API by @STDXD
 """
-            await message.reply(text, quote=True, disable_web_page_preview=True)
+        await message.reply(text, quote=True)
 
     except Exception as e:
-        await message.reply(f"❌ Error: {str(e)}", quote=True)
+        await message.reply(f"❌ Error: {e}", quote=True)
