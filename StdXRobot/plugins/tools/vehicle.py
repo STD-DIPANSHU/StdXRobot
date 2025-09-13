@@ -4,15 +4,12 @@ from StdXRobot import app
 from pyrogram import filters
 
 API_URL = "https://vehicle-infoapi.vercel.app/api"
-API_KEY = "test"  # apna API key
+API_KEY = "test"
 
 @app.on_message(filters.command("vehicle"))
 async def vehicle_lookup(client, message):
     if len(message.command) < 2:
-        await message.reply(
-            "❌ Please provide a vehicle number.\n\nUsage: `/vehicle MH12AB1234`",
-            quote=True
-        )
+        await message.reply("❌ Usage: `/vehicle MH12AB1234`", quote=True)
         return
 
     reg_number = message.command[1].upper().replace("-", "").replace(" ", "")
@@ -22,13 +19,6 @@ async def vehicle_lookup(client, message):
             url = f"{API_URL}?vin={reg_number}&key={API_KEY}"
             response = await client_http.get(url)
 
-        if response.status_code != 200:
-            await message.reply(
-                f"❌ API Error {response.status_code}\n\n{response.text[:400]}",
-                quote=True
-            )
-            return
-
         result = response.json()
         data = result.get("processedData", {})
 
@@ -36,6 +26,7 @@ async def vehicle_lookup(client, message):
             await message.reply("⚠️ No processed data found for this vehicle.", quote=True)
             return
 
+        # yaha se sahi key names use kar
         text = f"""
 **🚦 Vehicle Info Report**
 ━━━━━━━━━━━━━━━
@@ -49,7 +40,7 @@ async def vehicle_lookup(client, message):
 🔸 Model: {data.get('Meta Data Response Result Model', 'N/A')}
 🔸 Colour: {data.get('Meta Data Response Result Vehicle Colour', 'N/A')}
 🔸 Type: {data.get('Meta Data Response Result Type', 'N/A')}
-🔸 Fuel: {data.get('Meta Data Response Result Vehicle Type', 'N/A')}
+🔸 Fuel: {data.get('Meta Data Response Result Vehicle Category', 'N/A')}
 🔸 CC: {data.get('Meta Data Response Result Vehicle Cubic Capacity', 'N/A')}
 🔸 Seats: {data.get('Meta Data Response Result Vehicle Seat Capacity', 'N/A')}
 
@@ -64,7 +55,7 @@ async def vehicle_lookup(client, message):
 🔸 Policy No: `{data.get('Meta Data Response Result Vehicle Insurance Policy Number', 'N/A')}`
 
 **🏢 RTO**
-🔸 RTO Code: {data.get('Meta Data Response Result Rto Code', 'N/A')}
+🔸 RTO Code: {data.get('RTO Code', 'N/A')}
 🔸 Authority: {data.get('Meta Data Response Result Reg Authority', 'N/A')}
 
 ⚙️ **Source:** API by @STDXD
