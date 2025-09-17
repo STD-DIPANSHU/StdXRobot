@@ -10,7 +10,7 @@ abuse_list = [
     "bubey", "bur", "burr", "buurr", "buur", "charsi", "chooche", "choochi", "chuchi", "chhod", "chod", "chodd",
     "chudne", "chudney", "chudwa", "chudwaa", "chudwane", "chudwaane", "choot", "chut", "chute", "chutia", "chutiya",
     "chutiye", "chuttad", "chutad", "dalaal", "dalal", "dalle", "dalley", "fattu", "gadha", "gadhe", "gadhalund",
-    "gaand", "gand", "gandu", "gandfat", "gandfut", "gandiya", "gandiye", "goo", "gu", "gote", "gotey", "gotte",
+    "gaand", "gand", "gandu", "gandfat", "gandfut", "gandiya", "gandiye", "gu", "gote", "gotey", "gotte",
     "hag", "haggu", "hagne", "hagney", "harami", "haramjada", "haraamjaada", "haramzyada", "haraamzyaada", "haraamjaade",
     "haraamzaade", "haraamkhor", "haramkhor", "jhat", "jhaat", "jhaatu", "jhatu", "kutta", "kutte", "kuttey", "kutia",
     "kutiya", "kuttiya", "kutti", "landi", "landy", "laude", "laudey", "laura", "lora", "lauda", "ling", "loda", "lode",
