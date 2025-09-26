@@ -7,6 +7,7 @@ asyncio
 beautifulsoup4
 daxxhub
 deepai
+pyrofork
 python-whois
 dnspython
 ffmpeg-python
