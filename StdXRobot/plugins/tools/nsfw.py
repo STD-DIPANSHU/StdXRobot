@@ -22,7 +22,6 @@ POLICE = [
     ],
 ]
 
-# -------------------- SIGHTENGINE API -------------------- #
 async def check_nsfw(file_path: str) -> bool:
     """
     Upload media to STD API and return True if NSFW.
