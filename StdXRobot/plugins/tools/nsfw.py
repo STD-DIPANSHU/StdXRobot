@@ -170,7 +170,7 @@ async def nsfw_detector(_, message):
             print("Punishment failed:", e)
 
 
-# -------------------- HELP -------------------- #
+# ---------------- HELP ----------------- #
 __mod__ = "ɴsғᴡ"
 __help__ = """
 **✦ /nsfwcheck [on|off]** - Enable or disable NSFW media check in group  
