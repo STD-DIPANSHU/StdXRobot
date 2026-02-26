@@ -6,8 +6,8 @@ from StdXRobot import app
 from PIL import Image
 
 # ENV Vars (set in .env or server config)
-SIGHT_USER = os.getenv("624344670")
-SIGHT_SECRET = os.getenv("h76kxr8c4PgRYBnmCq7WG29tWCoKMHqW")
+STD_USER = os.getenv("624344670")
+STD_SECRET = os.getenv("h76kxr8c4PgRYBnmCq7WG29tWCoKMHqW")
 
 # memory DB (restart ke baad reset ho jaega)
 nsfw_db = {}
@@ -25,9 +25,9 @@ POLICE = [
 # -------------------- SIGHTENGINE API -------------------- #
 async def check_nsfw(file_path: str) -> bool:
     """
-    Upload media to Sightengine API and return True if NSFW.
+    Upload media to STD API and return True if NSFW.
     """
-    url = "https://api.sightengine.com/1.0/check.json"
+    url = "https://api.deepanshu.in/1.0/check.json"
     data = {
         "models": "nudity,wad,offensive",
         "api_user": SIGHT_USER,
